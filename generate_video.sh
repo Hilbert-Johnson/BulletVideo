@@ -1,0 +1,1 @@
+ffmpeg -r 4 -f image2 -i %d.png -s 1280x800 test.mp4
