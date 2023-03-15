@@ -13,7 +13,7 @@ def doubleFaceGenerate(input_file, output_file):
             for faceElem in faceList:
                 file_write.write("f " + faceElem[0] + " " + faceElem[1] + " " + faceElem[2])
 
-for i in range(200):
-    input_file = os.path.join("./clothWash/cloth", "coat_hanger_20_{}.obj.obj".format(i))
-    output_file = os.path.join("./clothWash/cloth", str(i)+".obj")
+for i in range(3000):
+    input_file = os.path.join("./clothHuman/cloth/Moving", "step{}.obj".format(i))
+    output_file = os.path.join("./clothHuman/cloth", str(i)+".obj")
     doubleFaceGenerate(input_file, output_file)
