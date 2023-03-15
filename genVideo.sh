@@ -1,0 +1,1 @@
+ffmpeg -f image2 -i ./%d.png -b:v 2043k ./demo.mp4

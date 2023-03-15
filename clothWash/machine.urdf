@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="init">
+    <link name="world"/>
+    <joint name="1" type="fixed">
+        <parent link="world"/>
+        <child link="main_body"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="main_body">
+        <inertial>
+            <mass value="1.0" /><origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+        <visual>
+            <origin rpy="0 2.22144 2.22144" xyz="0 -0.5 0" />
+            <geometry><mesh filename="./clothWash/mesh/main_body.obj" /></geometry>
+        </visual>
+    </link>
+    <joint name="2" type="fixed">
+        <parent link="world"/>
+        <child link="door"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="door">
+        <inertial>
+            <mass value="1.0" /><origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+        <visual>
+            <origin rpy="-1.105328 1.2725234 1.1063409" xyz="-0.30658 0.17582 -0.258" />
+            <geometry><mesh filename="./clothWash/mesh/door.obj" /></geometry>
+        </visual>
+    </link>
+    <joint name="3" type="fixed">
+        <parent link="world"/>
+        <child link="tray"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="tray">
+        <inertial>
+            <mass value="1.0" /><origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+        <visual>
+            <origin rpy="0 2.221441469 2.221441469" xyz="0 0.456 -0.19" />
+            <geometry><mesh filename="./clothWash/mesh/tray.obj" /></geometry>
+        </visual>
+    </link>
+</robot>

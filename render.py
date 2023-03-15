@@ -3,6 +3,7 @@ from time import sleep
 import pybullet_data
 import cv2
 import numpy as np
+from IPython import embed
 
 def rgba2rgb(rgba, background=(255,255,255)):
     row, col, ch = rgba.shape
@@ -26,20 +27,24 @@ def rgba2rgb(rgba, background=(255,255,255)):
 
 def render_clothHanger(particle_url, save_img_path, primitive_url=None):
     physicsClient = p.connect(p.GUI)
-    p.resetDebugVisualizerCamera(8, cameraYaw = 0, cameraPitch = 110, cameraTargetPosition=[0.0, 0, 0])
+    p.resetDebugVisualizerCamera(2, cameraYaw = -165, cameraPitch = -30, cameraTargetPosition=[-0.5, 0.5, 0])
 
-    StartPos = [-1.9, 2.0, 2.7]
-    StartOrientation = p.getQuaternionFromEuler([0, 0, 0])
+    StartPos = [0, 0, 0]
+    StartOrientation = p.getQuaternionFromEuler([np.pi/2, 0, 0])
 
     cloth = p.loadURDF(particle_url, StartPos, StartOrientation, useFixedBase=True)
     p.changeVisualShape(cloth, -1, rgbaColor=[67.0/255.0, 142.0/255.0, 219.0/255.0 ,1], flags=0)
 
     if primitive_url is not None:
+      StartPos = [0, 1, 0.05]
       boxId = p.loadURDF(primitive_url, StartPos, StartOrientation, useFixedBase=True)
-      p.changeVisualShape(boxId, -1, rgbaColor=[254.0/255.0, 67.0/255.0, 101.0/255.0 ,1], flags=0)
+      p.changeVisualShape(boxId, -1, rgbaColor=[139.0/255.0, 71.0/255.0, 38.0/255.0 ,1], flags=0)
 
     p.setPhysicsEngineParameter(sparseSdfVoxelSize=0.01)
     p.setRealTimeSimulation(0)
+    
+    # while True:
+    #   pass
 
     img = p.getCameraImage(1280, 800)
     rgb_img = rgba2rgb(img[2])
@@ -49,11 +54,11 @@ def render_clothHanger(particle_url, save_img_path, primitive_url=None):
 
 
 
-def render(particle_url, save_img_path, primitive_url=None):
+def render_clothFold(particle_url, save_img_path, primitive_url=None):
     physicsClient = p.connect(p.GUI)
-    p.resetDebugVisualizerCamera(8, cameraYaw = 0, cameraPitch = 110, cameraTargetPosition=[0.0, 0, 0])
+    p.resetDebugVisualizerCamera(2, cameraYaw = 0, cameraPitch = -85, cameraTargetPosition=[0, 0, 0])
 
-    StartPos = [-1.9, 2.0, 2.7]
+    StartPos = [0, 0, 1]
     StartOrientation = p.getQuaternionFromEuler([0, 0, 0])
 
     cloth = p.loadURDF(particle_url, StartPos, StartOrientation, useFixedBase=True)
@@ -61,10 +66,70 @@ def render(particle_url, save_img_path, primitive_url=None):
 
     if primitive_url is not None:
       boxId = p.loadURDF(primitive_url, StartPos, StartOrientation, useFixedBase=True)
-      p.changeVisualShape(boxId, -1, rgbaColor=[254.0/255.0, 67.0/255.0, 101.0/255.0 ,1], flags=0)
+      p.changeVisualShape(boxId, -1, rgbaColor=[139.0/255.0, 71.0/255.0, 38.0/255.0 ,1], flags=0)
 
     p.setPhysicsEngineParameter(sparseSdfVoxelSize=0.01)
     p.setRealTimeSimulation(0)
+
+    # while True:
+    #   pass
+
+    img = p.getCameraImage(1280, 800)
+    rgb_img = rgba2rgb(img[2])
+    cv2.imwrite(save_img_path, rgb_img[:, :, ::-1])
+
+    p.disconnect()
+
+
+def render_clothWash(particle_url, save_img_path, primitive_url=None):
+    physicsClient = p.connect(p.GUI)
+    p.resetDebugVisualizerCamera(2, cameraYaw = 0, cameraPitch = -85, cameraTargetPosition=[0, 0, 0])
+
+    StartPos = [0, 0, 0]
+    StartOrientation = p.getQuaternionFromEuler([0, 0, 0])
+
+    cloth = p.loadURDF(particle_url, StartPos, StartOrientation, useFixedBase=True)
+    p.changeVisualShape(cloth, -1, rgbaColor=[67.0/255.0, 142.0/255.0, 219.0/255.0 ,1], flags=0)
+
+    if primitive_url is not None:
+      boxId = p.loadURDF(primitive_url, StartPos, StartOrientation, useFixedBase=True)
+      p.changeVisualShape(boxId, -1, rgbaColor=[139.0/255.0, 71.0/255.0, 38.0/255.0 ,1], flags=0)
+
+    p.setPhysicsEngineParameter(sparseSdfVoxelSize=0.01)
+    p.setRealTimeSimulation(0)
+
+    while True:
+      pass
+
+    img = p.getCameraImage(1280, 800)
+    rgb_img = rgba2rgb(img[2])
+    cv2.imwrite(save_img_path, rgb_img[:, :, ::-1])
+
+    p.disconnect()
+
+
+def render_clothHuman(particle_url, save_img_path, primitive_url=None):
+    physicsClient = p.connect(p.GUI)
+    p.resetDebugVisualizerCamera(2, cameraYaw = 0, cameraPitch = -85, cameraTargetPosition=[0, 0, 0])
+
+    StartPos = [0, 0, 0]
+    StartOrientation = p.getQuaternionFromEuler([0, 0, 0])
+
+    # cloth = p.loadURDF(particle_url, StartPos, StartOrientation, useFixedBase=True)
+    # p.changeVisualShape(cloth, -1, rgbaColor=[67.0/255.0, 142.0/255.0, 219.0/255.0 ,1], flags=0)
+
+    if primitive_url is not None:
+      boxId = p.loadURDF(primitive_url, StartPos, StartOrientation, useFixedBase=True)
+      p.changeVisualShape(boxId, -1, rgbaColor=[139.0/255.0, 71.0/255.0, 38.0/255.0 ,1], flags=0)
+      states = np.loadtxt("/home/ubuntu/BulletVideo/clothHuman/p.txt")
+      for index in range(p.getNumJoints(boxId)):
+        p.resetJointState(boxId, index, states[index])
+
+    p.setPhysicsEngineParameter(sparseSdfVoxelSize=0.01)
+    p.setRealTimeSimulation(0)
+    embed()
+    while True:
+      pass
 
     img = p.getCameraImage(1280, 800)
     rgb_img = rgba2rgb(img[2])
