@@ -196,3 +196,33 @@ def render_clothHuman(particle_url, save_img_path, step):
     cv2.imwrite(save_img_path, rgb_img[:, :, ::-1])
 
     p.disconnect()
+
+
+def render_gripper(particle_url, save_img_path, step, primitive_url=None):
+    physicsClient = p.connect(p.GUI)
+    p.resetDebugVisualizerCamera(8, cameraYaw = -45, cameraPitch = -10, cameraTargetPosition=[0, 0, 0])
+
+    StartPos = [0, 0, 0]
+    StartOrientation = p.getQuaternionFromEuler([np.pi/2, 0, 0])
+
+    cloth = p.loadURDF(particle_url, StartPos, StartOrientation, useFixedBase=True)
+    p.changeVisualShape(cloth, -1, rgbaColor=[67.0/255.0, 142.0/255.0, 219.0/255.0 ,1], flags=0)
+
+    if primitive_url is not None:
+        gripper_state = np.loadtxt('./exp-c/gripper_state/iter-{}.txt'.format(step))[:6]
+        StartPos = np.array([gripper_state[3], -gripper_state[5], gripper_state[4]])
+        StartOrientation = p.getQuaternionFromEuler(gripper_state[0:3] + np.array([np.pi/2,0,0]))
+        boxId = p.loadURDF(primitive_url, StartPos, StartOrientation, useFixedBase=True)
+        p.changeVisualShape(boxId, -1, rgbaColor=[139.0/255.0, 71.0/255.0, 38.0/255.0 ,1], flags=0)
+
+    p.setPhysicsEngineParameter(sparseSdfVoxelSize=0.01)
+    p.setRealTimeSimulation(0)
+    
+    # while True:
+    #   pass
+
+    img = p.getCameraImage(1280, 800)
+    rgb_img = rgba2rgb(img[2])
+    cv2.imwrite(save_img_path, rgb_img[:, :, ::-1])
+
+    p.disconnect()

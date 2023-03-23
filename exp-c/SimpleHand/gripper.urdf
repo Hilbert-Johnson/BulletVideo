@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot name="franka_2f">
+  <link name="base"/>
+  <link name="hand">
+      <inertial>
+          <mass value="1" />
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+      </inertial>
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/hand.obj"/>
+          </geometry>
+          <material name="red">
+            <color rgba="1.0 0.4 0.4 1.0"/>
+          </material>
+      </visual>
+      <collision group="default">
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/hand.obj"/>
+          </geometry>
+      </collision>
+  </link>
+  <joint name="hand_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="base" />
+      <child link="hand" />
+  </joint>
+  <link name="leftfinger">
+      <inertial>
+          <mass value="0.0001" />
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+      </inertial>
+      <visual>
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/finger.obj"/>
+          </geometry>
+          <material name="red">
+            <color rgba="1.0 0.4 0.4 1.0"/>
+          </material>
+      </visual>
+      <collision group="default">
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/finger.obj"/>
+          </geometry>
+      </collision>
+  </link>
+  <link name="rightfinger">
+      <inertial>
+          <mass value="0.0001" />
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+      </inertial>
+      <visual>
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/finger.obj"/>
+          </geometry>
+          <material name="red">
+            <color rgba="1.0 0.4 0.4 1.0"/>
+          </material>
+      </visual>
+      <collision group="default">
+          <origin xyz="0 0 -0" rpy="0 0 0" />
+          <geometry>
+              <mesh filename="./meshes/finger.obj"/>
+          </geometry>
+      </collision>
+  </link>
+  <joint name="finger_joint1" type="fixed">
+    <parent link="hand"/>
+    <child link="leftfinger"/>
+    <origin rpy="0 0 3.14" xyz="0 -0.105 -0.4"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="20" lower="-0.2" upper="0.2" velocity="1"/>
+  </joint>
+  <joint name="finger_joint2" type="fixed">
+    <parent link="hand"/>
+    <child link="rightfinger"/>
+    <origin rpy="0 0 0" xyz="0 0.105 -0.4"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="20" lower="-0.2" upper="0.2" velocity="1"/>
+  </joint>
+</robot>
